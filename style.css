@@ -1,0 +1,45 @@
+h1 {
+    font-family:cursive;
+    background-color: antiquewhite;
+    color: brown;
+    padding: 1rem;
+    border-bottom: .05rem solid red;
+}
+#search {
+padding: 1rem;
+border-bottom: 0.07rem solid red;
+}
+#results {
+    border: 1rem solid black;
+    padding: 3rem solid pink;
+    display:flex;
+    flex-wrap:wrap;
+    align-content: space-between;
+}
+.record {
+    border
+    padding: 1rem;
+    align-content: space-between;
+    width: 20%;
+    text-align: center;
+    color: white;
+}
+.record:hover {
+    background-color: #0008;
+}
+body {
+    background-image: url(https://hips.hearstapps.com/amv-prod-gp.s3.amazonaws.com/gearpatrol/wp-content/uploads/2015/05/Record-Store-Day-Gear-Patrol-Lead-Full.jpg?crop=0.6711340206185566xw:1xh;center,top&resize=980:*); 
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    background-attachment: fixed;
+}
+
+#audio-preview {
+    width: 100%
+}
+/* #container { */
+    /* background: */
+        /* url(resources/record\ store\ background.jpeg) center/cover; */
+/* } */

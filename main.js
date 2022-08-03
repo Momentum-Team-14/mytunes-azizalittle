@@ -33,15 +33,15 @@ fetch(url, {
 })
 }
 
-
 let resultsDiv = document.querySelector('#results');
 console.log('results div', resultsDiv);
 
 function showResults(songArray) {
+    resultsDiv.innerHTML = ('')
     console.log(songArray);
     for (let song of songArray){
-        let songReturnDiv = document.createElement('div');
-        songReturnDiv.classList.add('songReturn');
+        let recordDiv = document.createElement('div');
+        recordDiv.classList.add('record');
 
         let imageDiv = document.createElement('img');
         imageDiv.classList.add('image');
@@ -55,9 +55,18 @@ function showResults(songArray) {
         artistDiv.classList.add('div');
         artistDiv.innerText = `${song.artistName}`;
 
-        resultsDiv.appendChild(songReturnDiv);
-        songReturnDiv.appendChild(imageDiv);
-        songReturnDiv.appendChild(titleDiv);
-        songReturnDiv.appendChild(artistDiv);
+        resultsDiv.appendChild(recordDiv);
+        recordDiv.appendChild(imageDiv);
+        recordDiv.appendChild(titleDiv);
+        recordDiv.appendChild(artistDiv);
+
+        let audio = document.querySelector('#audio-preview')
+        let currentSong = document.querySelector('.current-song')
+
+        recordDiv.addEventListener('click', playAudio);
+        function playAudio() {
+            audio.src = song.previewUrl
+            currentSong.innerText = `Currently playing: ${song.trackName} by ${song.artistName}`
+        } 
     }
 }
