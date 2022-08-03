@@ -1,14 +1,24 @@
 console.log('JS is here boo!');
+const search = document.createElement('div');
 
 let input = document.createElement('input');
 input.type = 'text';
-input.className = 'css-class-name';
-container.appendChild(input);
+search.appendChild(input);
 
+let searchBaseUrl = 'https://itunes.apple.com/search?term='
 
-let searchUrl = 'https://itunes.apple.com/search?term=isaiah%2Brashad&entity=musicTrack'
+let searchForm = document.querySelector('#search-form')
+searchForm.addEventListener('submit', (event) => {
+    event.preventDefault()
+    console.log('submitted!')
+    let searchBox = document.querySelector('#search-box')
+    let searchUrl = `${searchBaseUrl}${searchBox.value}`
+    console.log('search url', searchUrl)
+    getSearchResults(searchUrl)
+})
 
-fetch(searchUrl, {
+function getSearchResults(url) {
+fetch(url, {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' }
 })
@@ -18,32 +28,36 @@ fetch(searchUrl, {
 })
 // data is whatever the above code returns, in this case response.json()
 .then(function (data) {
-    console.log(data.data)
+    console.log(data.results)
+    showResults(data.results);
 })
-
-
+}
 
 
 let resultsDiv = document.querySelector('#results');
 console.log('results div', resultsDiv);
 
-function showResults(resultsArray) {
-    console.log(results);
-    for (let result of resultsArray){
-        let resultDiv = document.createElement('div');
-        resultDiv.classList.add('result');
+function showResults(songArray) {
+    console.log(songArray);
+    for (let song of songArray){
+        let songReturnDiv = document.createElement('div');
+        songReturnDiv.classList.add('songReturn');
 
         let imageDiv = document.createElement('img');
         imageDiv.classList.add('image');
-        imageDiv.src = result.artworkUrl100;
+        imageDiv.src = song.artworkUrl100;
 
         let titleDiv = document.createElement('div');
         titleDiv.classList.add('div');
-        titleDiv.innerText = `${result.trackName}`;
+        titleDiv.innerText = `${song.trackName}`;
 
         let artistDiv = document.createElement('div');
         artistDiv.classList.add('div');
-        artistDiv.innerText = `${artistName}`;
+        artistDiv.innerText = `${song.artistName}`;
+
+        resultsDiv.appendChild(songReturnDiv);
+        songReturnDiv.appendChild(imageDiv);
+        songReturnDiv.appendChild(titleDiv);
+        songReturnDiv.appendChild(artistDiv);
     }
 }
-showResults(results);
