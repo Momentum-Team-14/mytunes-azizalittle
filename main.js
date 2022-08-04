@@ -5,7 +5,7 @@ let input = document.createElement('input');
 input.type = 'text';
 search.appendChild(input);
 
-let searchBaseUrl = 'https://itunes.apple.com/search?term='
+let searchBaseUrl = 'https://itunes.apple.com/search?term=';
 
 let searchForm = document.querySelector('#search-form')
 searchForm.addEventListener('submit', (event) => {
@@ -23,13 +23,21 @@ fetch(url, {
     headers: { 'Content-Type': 'application/json' }
 })
 //response is whatever the fetch returns
-.then(function (response) {
-    return response.json()
+.then(response => {
+    if(!response.ok){
+        throw Error(response.status);
+    } else {
+        console.log(response);
+        return response.json();
+    }
 })
 // data is whatever the above code returns, in this case response.json()
-.then(function (data) {
-    console.log(data.results)
-    showResults(data.results);
+.then(data => {
+    let songs = data.results;
+    showResults(songs);
+}).catch(error => {
+    console.log(error);
+    alert(`Your request failed, for the reason: ${error}`);
 })
 }
 
@@ -39,6 +47,9 @@ console.log('results div', resultsDiv);
 function showResults(songArray) {
     resultsDiv.innerHTML = ('')
     console.log(songArray);
+    if (songArray.length === 0) {
+        resultsDiv.innerText = `Uh oh! I couldn't find music to match your search. Please try again`;
+    } else {
     for (let song of songArray){
         let recordDiv = document.createElement('div');
         recordDiv.classList.add('record');
@@ -63,10 +74,19 @@ function showResults(songArray) {
         let audio = document.querySelector('#audio-preview')
         let currentSong = document.querySelector('.current-song')
 
-        recordDiv.addEventListener('click', playAudio);
+        recordDiv.addEventListener('click', playCrackle);
+        function playCrackle() {
+            const crackle = new Audio('resources/crackle.mp3');
+            crackle.play();
+        }
+
         function playAudio() {
             audio.src = song.previewUrl
             currentSong.innerText = `Currently playing: ${song.trackName} by ${song.artistName}`
-        } 
+            audio.play();
+        }
+        recordDiv.addEventListener('click', e =>
+        setTimeout(playAudio, 1800)
+    )}
     }
-}
+    }
